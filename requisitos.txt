@@ -1,0 +1,20 @@
+Requisitos do Projeto:
+
+Requisitos Funcionais:
+
+RF01 - O sistema deve permitir cadastrar clientes.
+
+RF02 - O sistema deve armazenar:
+-  Nome
+-  CPF
+-  Telefone
+-  Endereço 
+
+RF03 - O sistema deve permitir consultar clientes cadastrados.
+
+RF04 - O sistema deve permitir atualizar os dados de um cliente.
+
+RF05 - O sistema deve permitir excluir um cliente.
+
+RF06 - O sistema deve apresentar um menu para acesso ás operações de cadastro, consulta, atualização e exclusão.
+
