@@ -1,16 +1,18 @@
-import java.sql.Connection;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
-		System.out.println("Tentando conectar ao banco...");
+		Clientes novoCliente = new Clientes(
+				0, "João da silva", "123.456.789-00",
+				"(11) 99999-8888", "Centro", "Rua das Flores",
+				"150", "Ap 42");
 		
-		Connection conexao = ConnectionFactory.getConnection();
+		ClienteDAO clienteDao = new ClienteDAO();
 		
-		if (conexao != null) {
-			System.out.println("Conexão realizada com sucesso.");
-		}
+		System.out.println("Iniciando o cadastro do cliente...");
+		clienteDao.cadastrarCliente(novoCliente);
+		System.out.println("Processo finalizado!");
 
 	}
 

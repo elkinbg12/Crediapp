@@ -1,6 +1,6 @@
 
 public class Clientes {
-
+	
 	private int id;
 	private String nome;
 	private String cpf;
@@ -10,29 +10,34 @@ public class Clientes {
 	private String numero;
 	private String complemento;
 	
-
-
-public Clientes() {
+	public Clientes() {}
 	
-}
-
-public Clientes(String nome, String cpf, String telefone, String bairro,
-		String rua, String numero, String complemento) {
+	Clientes(int id, String nome, String cpf, String telefone, String bairro,
+			String rua, String numero, String complemento){
+		
+		this.id = id;
+		this.nome = nome;
+		this.cpf = cpf;
+		this.telefone = telefone;
+		this.bairro = bairro;
+		this.rua = rua;
+		this.numero = numero;
+		this.complemento = complemento;
+	}
 	
-	this.nome = nome;
-	this.cpf = cpf;
-	this.telefone = telefone;
-	this.bairro = bairro;
-	this.rua = rua;
-	this.numero = numero;
-	this.complemento = complemento;
+	public int getId() {
+		return id;
+	}
 	
-}
+	public void setId(int id) {
+		
+		this.id = id;
+	}
 
 	public String getNome() {
 		return nome;
 	}
-	
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
@@ -84,5 +89,8 @@ public Clientes(String nome, String cpf, String telefone, String bairro,
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}
-
+	
+	
+	
+	
 }
