@@ -1,5 +1,5 @@
 
-public class Clientes {
+public class Cliente {
 	
 	private int id;
 	private String nome;
@@ -10,9 +10,9 @@ public class Clientes {
 	private String numero;
 	private String complemento;
 	
-	public Clientes() {}
+	public Cliente() {}
 	
-	Clientes(int id, String nome, String cpf, String telefone, String bairro,
+	Cliente(int id, String nome, String cpf, String telefone, String bairro,
 			String rua, String numero, String complemento){
 		
 		this.id = id;

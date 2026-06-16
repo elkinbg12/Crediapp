@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class ClienteDAO {
 
-	public void cadastrarCliente(Clientes cliente) {
+	public void cadastrarCliente(Cliente cliente) {
 		
 		String sql = "INSERT INTO clientes(nome, cpf, telefone, bairro, rua, numero, complemento) VALUES (?,?,?,?,?,?,?)";
 		
@@ -30,17 +30,17 @@ public class ClienteDAO {
 		}
 	}
 
-	public List<Clientes> listarClientes() {
+	public List<Cliente> listarClientes() {
 
 		String sql = "SELECT * FROM clientes";
-		List<Clientes> lista = new ArrayList<>();
+		List<Cliente> lista = new ArrayList<>();
 
 		try (Connection conn = ConexaoBanco.conectar();
 	         PreparedStatement stmt = conn.prepareStatement(sql);
 			 ResultSet rs = stmt.executeQuery()) {
 
              while (rs.next()) {
-				Clientes cliente = new Clientes();
+				Cliente cliente = new Cliente();
 
 				cliente.setId(rs.getInt("id"));
 				cliente.setNome(rs.getString("nome"));
