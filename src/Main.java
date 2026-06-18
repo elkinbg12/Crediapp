@@ -14,6 +14,7 @@ public class Main {
 			System.out.println("=== MENU PRINCIPAL ===");
 			System.out.println("1- Cadastrar novo Cliente");
 			System.out.println("2- Listar Clientes do banco");
+			System.out.println("3- Lançar Empréstimo para Cliente");
 			System.out.println("0- Sair do programa.");
 
 			opcao = teclado.nextInt();
@@ -95,6 +96,32 @@ public class Main {
 						System.out.println("Endereço: " + c.getRua() + ", N° " + c.getNumero() + " - " + c.getBairro());
 						System.out.println("----------------------------------------------");
 					}
+				}
+				case 3 -> {
+
+                    System.out.println("=== LANÇAR NOVO EMPRÉSTIMO ===");
+
+					System.out.println("Digite o ID do Cliente dono do empréstimo: ");
+                    int clienteId = teclado.nextInt();
+					
+					System.out.println("Digite o valor solicitado (Puro): R$ ");
+					double valorPuro = teclado.nextDouble();
+
+					System.out.println("Digite o total de parcelas: ");
+					int totalParcelas = teclado.nextInt();
+					teclado.nextLine();
+
+					double taxaJuros = 0.10;
+					double valorTotalJuros = valorPuro + (valorPuro * taxaJuros);
+					double saldoDevedor = valorTotalJuros;
+					int parcelasPagas = 0;
+					java.time.LocalDate dataHoje = java.time.LocalDate.now();
+
+					Emprestimo novoEmprestimo = new Emprestimo(0, valorPuro, taxaJuros * 100, valorTotalJuros, saldoDevedor, totalParcelas, parcelasPagas, dataHoje, clienteId);
+
+					EmprestimoDAO emprestimoDao = new EmprestimoDAO();
+					emprestimoDao.cadastrarEmprestimo(novoEmprestimo);
+
 				}
 				case 0 -> System.out.println("Encerrando o Programa. Até mais!");
 				default -> System.out.println("Opção inválida! tente novamente.");   
