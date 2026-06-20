@@ -15,6 +15,7 @@ public class Main {
 			System.out.println("1- Cadastrar novo Cliente");
 			System.out.println("2- Listar Clientes do banco");
 			System.out.println("3- Lançar Empréstimo para Cliente");
+			System.out.println("4- Listar Empréstimos do banco");
 			System.out.println("0- Sair do programa.");
 
 			opcao = teclado.nextInt();
@@ -122,6 +123,28 @@ public class Main {
 					EmprestimoDAO emprestimoDao = new EmprestimoDAO();
 					emprestimoDao.cadastrarEmprestimo(novoEmprestimo);
 
+				}
+				case 4 -> {
+					System.out.println("=== LISTAGEM DE EMPRÉSTIMOS ===");
+
+					EmprestimoDAO emprestimoDao = new EmprestimoDAO();
+
+					List<Emprestimo> todosEmprestimos = emprestimoDao.listarEmprestimos();
+
+					System.out.println("Empréstimos encontrados: " + todosEmprestimos.size() + "\n");
+
+					for (Emprestimo e : todosEmprestimos) {
+
+						System.out.println("ID do Empréstimo: " + e.getId());
+						System.out.println("ID do Cliente Dono: " + e.getClienteId());
+						System.out.println("Valor solicitado (Puro): R$ " + e.getValorPuro());
+						System.out.println("Taxa Aplicada: " + e.getTaxaAplicada());
+						System.out.println("Total a pagar (com Juros): R$ " + e.getValorTotalJuros());
+						System.out.println("Saldo Devedor Atual: R$ " + e.getSaldoDevedor());
+						System.out.println("Parcelas: " + e.getParcelasPagas() + " pagas de "+ e.getTotalParcelas());
+						System.out.println("Data do Contrato: " + e.getDataEmprestimo());
+						System.out.println("------------------------------------------");
+					}
 				}
 				case 0 -> System.out.println("Encerrando o Programa. Até mais!");
 				default -> System.out.println("Opção inválida! tente novamente.");   

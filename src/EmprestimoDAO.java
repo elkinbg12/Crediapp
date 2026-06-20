@@ -1,6 +1,9 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmprestimoDAO {
     
@@ -25,5 +28,41 @@ public class EmprestimoDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao registrar empréstimo: " + e.getMessage());
         }
+    }
+
+    public List<Emprestimo> listarEmprestimos() {
+
+        String sql = "SELECT * FROM emprestimos";
+        List<Emprestimo> lista = new ArrayList<>();
+
+        try (Connection conn = ConexaoBanco.conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs =  stmt.executeQuery();) {
+
+                while (rs.next()) {
+                    Emprestimo e = new Emprestimo();
+
+                    e.setId(rs.getInt("id"));
+                    e.setValorPuro(rs.getDouble("valor_puro"));
+                    e.setTaxaAplicada(rs.getDouble("taxa_aplicada"));
+                    e.setValorTotalJuros(rs.getDouble("valor_total_juros"));
+                    e.setSaldoDevedor(rs.getDouble("saldo_devedor"));
+                    e.setTotalParcelas(rs.getInt("total_parcelas"));
+                    e.setParcelasPagas(rs.getInt("parcelas_pagas"));
+
+                    if (rs.getDate("data_emprestimo") != null) {
+                        e.setDataEmprestimo(rs.getDate("data_emprestimo").toLocalDate());
+                    }
+
+                    e.setClienteId(rs.getInt("cliente_id"));
+
+                    lista.add(e);
+
+                }
+            } catch (SQLException e) {
+                System.out.println("Erro ao listar Empréstimos" + e.getMessage());
+            }
+
+            return lista;
     }
 }
