@@ -21,7 +21,7 @@ public class EmprestimoDAO {
            stmt.setInt(5, emprestimo.getTotalParcelas());
            stmt.setInt(6, emprestimo.getParcelasPagas());
            stmt.setDate(7, java.sql.Date.valueOf(emprestimo.getDataEmprestimo()));
-           stmt.setInt(8, emprestimo.getClienteId());
+           stmt.setInt(8, emprestimo.getCliente().getId());
            
            stmt.executeUpdate();
            System.out.println("Empréstimo registrado com sucesso no banco!");
@@ -32,7 +32,7 @@ public class EmprestimoDAO {
 
     public List<Emprestimo> listarEmprestimos() {
 
-        String sql = "SELECT * FROM emprestimos";
+        String sql = "SELECT e.*, c.nome, c.cpf, c.telefone FROM emprestimos e INNER JOIN clientes c ON e.cliente_id = c.id";
         List<Emprestimo> lista = new ArrayList<>();
 
         try (Connection conn = ConexaoBanco.conectar();
@@ -53,8 +53,14 @@ public class EmprestimoDAO {
                     if (rs.getDate("data_emprestimo") != null) {
                         e.setDataEmprestimo(rs.getDate("data_emprestimo").toLocalDate());
                     }
+                    
+                    Cliente clienteDono = new Cliente();
+                    clienteDono.setId(rs.getInt("cliente_id"));
+                    clienteDono.setNome(rs.getString("nome"));
+                    clienteDono.setCpf(rs.getString("cpf"));
+                    clienteDono.setTelefone(rs.getString("telefone"));
 
-                    e.setClienteId(rs.getInt("cliente_id"));
+                    e.setCliente(clienteDono);
 
                     lista.add(e);
 

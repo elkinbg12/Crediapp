@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException; 
 
 public class teste {
@@ -18,5 +19,18 @@ public class teste {
             System.out.println("Erro ao tentar conectar com o banco." + e.getMessage());
             return null;
         }
+    }
+
+    public void CadastroCLiente(Cliente cliente){
+        String sql = "INSERT INTO clientes (...) VALUES (?, ?, ? ...)";   
+        try(Connection conn = ConexaoBanco.conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+                stmt.setString(1, cliente.getNome());
+
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("Erro ao tentar Cadastrar. " + e.getMessage());
+            }
     }
 }

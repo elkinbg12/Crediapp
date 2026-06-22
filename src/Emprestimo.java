@@ -10,11 +10,11 @@ public class Emprestimo {
     private int totalParcelas;
     private int parcelasPagas;
     private LocalDate dataEmprestimo;
-    private int clienteId;
+    private Cliente cliente;
 
     public Emprestimo () {}
 
-    public Emprestimo (int id, double valorPuro, double taxaAplicada, double valorTotalJuros, double saldoDevedor, int totalParcelas, int parcelasPagas, LocalDate dataEmprestimo, int clienteId) {
+    public Emprestimo (int id, double valorPuro, double taxaAplicada, double valorTotalJuros, double saldoDevedor, int totalParcelas, int parcelasPagas, LocalDate dataEmprestimo, Cliente cliente) {
 
         this.id = id;
         this.valorPuro = valorPuro;
@@ -24,7 +24,7 @@ public class Emprestimo {
         this.totalParcelas = totalParcelas;
         this.parcelasPagas = parcelasPagas;
         this.dataEmprestimo = dataEmprestimo;
-        this.clienteId = clienteId;
+        this.cliente = cliente;
     }
 
     public int getId() {
@@ -91,12 +91,12 @@ public class Emprestimo {
         this.dataEmprestimo = dataEmprestimo;
     }
 
-    public int getClienteId() {
-        return clienteId;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setClienteId(int clienteId) {
-        this.clienteId = clienteId;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     

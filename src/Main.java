@@ -82,7 +82,7 @@ public class Main {
 				}
 				case 2 -> {
 
-					System.out.println("=== Consultando CLientes ===");
+					System.out.println("=== Consultando Clientes ===");
 
 					List<Cliente> todosClientes = clienteDao.listarClientes();
 
@@ -99,11 +99,13 @@ public class Main {
 					}
 				}
 				case 3 -> {
+                    Cliente clienteDono = new Cliente();
 
                     System.out.println("=== LANÇAR NOVO EMPRÉSTIMO ===");
 
 					System.out.println("Digite o ID do Cliente dono do empréstimo: ");
                     int clienteId = teclado.nextInt();
+					clienteDono.setId(clienteId); 
 					
 					System.out.println("Digite o valor solicitado (Puro): R$ ");
 					double valorPuro = teclado.nextDouble();
@@ -118,7 +120,7 @@ public class Main {
 					int parcelasPagas = 0;
 					java.time.LocalDate dataHoje = java.time.LocalDate.now();
 
-					Emprestimo novoEmprestimo = new Emprestimo(0, valorPuro, taxaJuros * 100, valorTotalJuros, saldoDevedor, totalParcelas, parcelasPagas, dataHoje, clienteId);
+					Emprestimo novoEmprestimo = new Emprestimo(0, valorPuro, taxaJuros * 100, valorTotalJuros, saldoDevedor, totalParcelas, parcelasPagas, dataHoje, clienteDono);
 
 					EmprestimoDAO emprestimoDao = new EmprestimoDAO();
 					emprestimoDao.cadastrarEmprestimo(novoEmprestimo);
@@ -136,7 +138,7 @@ public class Main {
 					for (Emprestimo e : todosEmprestimos) {
 
 						System.out.println("ID do Empréstimo: " + e.getId());
-						System.out.println("ID do Cliente Dono: " + e.getClienteId());
+						System.out.println("ID do Cliente Dono: " + e.getCliente().getId());
 						System.out.println("Valor solicitado (Puro): R$ " + e.getValorPuro());
 						System.out.println("Taxa Aplicada: " + e.getTaxaAplicada());
 						System.out.println("Total a pagar (com Juros): R$ " + e.getValorTotalJuros());
