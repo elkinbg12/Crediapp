@@ -1,12 +1,14 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
+import java.util.Locale;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
 		Scanner teclado = new Scanner(System.in);
+		teclado.useLocale(Locale.US);
 		ClienteDAO clienteDao = new ClienteDAO();
         int opcao = -1; 
 		
@@ -16,6 +18,7 @@ public class Main {
 			System.out.println("2- Listar Clientes do banco");
 			System.out.println("3- Lançar Empréstimo para Cliente");
 			System.out.println("4- Listar Empréstimos do banco");
+			System.out.println("5- Registrar Pagamento de Empréstimo.");
 			System.out.println("0- Sair do programa.");
 
 			opcao = teclado.nextInt();
@@ -23,63 +26,63 @@ public class Main {
 
 			switch (opcao) {
                 case 1 -> {
-                      List<Cliente> listaTemporaria = new ArrayList<>();
+                    List<Cliente> listaTemporaria = new ArrayList<>();
+	
+					System.out.println("--- SISTEMA DE CADASTRO EM LOTE ---");
 		
-		System.out.println("--- SISTEMA DE CADASTRO EM LOTE ---");
+					String continuar = "S";
 		
-		String continuar = "S";
-		
-		while (continuar.equalsIgnoreCase("S")) {
+					while (continuar.equalsIgnoreCase("S")) {
 			
-			System.out.println("\nDigite os dados do novo cliente: ");
+						System.out.println("\nDigite os dados do novo cliente: ");
 			
-			System.out.println("Nome: ");
-			String nome = teclado.nextLine();
+						System.out.println("Nome: ");
+						String nome = teclado.nextLine();
 			
-			System.out.println("CPF: ");
-			String cpf = teclado.nextLine();
+						System.out.println("CPF: ");
+						String cpf = teclado.nextLine();
 			
 
-			System.out.println("Telefone: ");
-			String telefone = teclado.nextLine();
+						System.out.println("Telefone: ");
+						String telefone = teclado.nextLine();
 			
 
-			System.out.println("Bairro: ");
-			String bairro = teclado.nextLine();
+						System.out.println("Bairro: ");
+						String bairro = teclado.nextLine();
 			
 
-			System.out.println("Rua: ");
-			String rua = teclado.nextLine();
+						System.out.println("Rua: ");
+						String rua = teclado.nextLine();
 			
 
-			System.out.println("Número: ");
-			String numero = teclado.nextLine();
+						System.out.println("Número: ");
+						String numero = teclado.nextLine();
 			
 
-			System.out.println("complemento: ");
-			String complemento = teclado.nextLine();
+						System.out.println("complemento: ");
+						String complemento = teclado.nextLine();
 			
-			Cliente c = new Cliente(0, nome, cpf, telefone, bairro,
-					rua, numero, complemento);
+						Cliente c = new Cliente(0, nome, cpf, telefone, bairro,
+						rua, numero, complemento);
 			
-			listaTemporaria.add(c);
+						listaTemporaria.add(c);
 			
-			System.out.println("\nDeseja cadastrar mais um cliente? (S/N)");
-			continuar = teclado.nextLine();
-		}
+						System.out.println("\nDeseja cadastrar mais um cliente? (S/N)");
+						continuar = teclado.nextLine();
+					}
 		
-		System.out.println("\nTotal de clientes na lista: " + listaTemporaria.size());
-		System.out.println("Enviando todos para o MySQL de uma vez só...");
+					System.out.println("\nTotal de clientes na lista: " + listaTemporaria.size());
+					System.out.println("Enviando todos para o MySQL de uma vez só...");
 		
 		
-		for (Cliente clienteDaVez : listaTemporaria) {
+					for (Cliente clienteDaVez : listaTemporaria) {
 			
-			System.out.println("Salvando no banco: " + clienteDaVez.getNome());
-			clienteDao.cadastrarCliente(clienteDaVez);
-		}
+						System.out.println("Salvando no banco: " + clienteDaVez.getNome());
+						clienteDao.cadastrarCliente(clienteDaVez);
+					}
 		
-		System.out.println("\nProcesso finalizado com sucesso!");
-				}
+					System.out.println("\nProcesso finalizado com sucesso!");
+					}
 				case 2 -> {
 
 					System.out.println("=== Consultando Clientes ===");
@@ -146,6 +149,38 @@ public class Main {
 						System.out.println("Parcelas: " + e.getParcelasPagas() + " pagas de "+ e.getTotalParcelas());
 						System.out.println("Data do Contrato: " + e.getDataEmprestimo());
 						System.out.println("------------------------------------------");
+					}
+				}
+				case 5 -> {
+					System.out.println("=== RESGISTRAR PAGAMENTO ===");
+
+					System.out.println("Digite o ID do Empréstimo: ");
+					int empId = teclado.nextInt();
+
+					EmprestimoDAO empDao = new EmprestimoDAO();
+
+					Emprestimo empAtual = empDao.buscarPorId(empId);
+
+					if (empAtual != null) {
+
+						System.out.println("Empréstimo encontrado!");
+						System.out.println("Saldo devedor atual: R$ " + empAtual.getSaldoDevedor());
+						System.out.println("Parcelas pagas: " + empAtual.getParcelasPagas() + " de " + empAtual.getTotalParcelas());
+
+						System.out.println("\nDigite o valor do pagamento: R$ ");
+						double valorPago = teclado.nextDouble();
+						teclado.nextLine();
+
+						double novoSaldo = empAtual.getSaldoDevedor() - valorPago;
+						int novasParcelasPagas = empAtual.getParcelasPagas() + 1;
+
+						if (novoSaldo < 0) {
+							novoSaldo = 0;
+						}
+
+						empDao.registrarPagamento(empId, novoSaldo, novasParcelasPagas);
+					} else {
+						System.out.println("Empréstimo com ID " + empId + " não foi encontrado.");
 					}
 				}
 				case 0 -> System.out.println("Encerrando o Programa. Até mais!");

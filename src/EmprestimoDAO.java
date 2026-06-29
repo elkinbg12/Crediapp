@@ -71,4 +71,51 @@ public class EmprestimoDAO {
 
             return lista;
     }
+
+    public void registrarPagamento(int emprestimoId, double novoSaldo, int novasParcelasPagas) {
+
+        String sql = "UPDATE emprestimos SET saldo_devedor = ?, parcelas_pagas = ? WHERE id = ?";
+
+        try (Connection conn = ConexaoBanco.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+                stmt.setDouble(1, novoSaldo);
+                stmt.setDouble(2, novasParcelasPagas);
+                stmt.setInt(3, emprestimoId);
+
+                stmt.executeUpdate();
+                System.out.println("Pagamento registrado com sucesso no banco!\n");
+             } catch (SQLException e) {
+
+                System.out.println("Erro ao registrar o pagamento: " + e.getMessage());
+             }
+    }
+
+    public Emprestimo buscarPorId (int id) {
+
+        String sql = "SELECT * FROM emprestimos WHERE id = ?";
+
+        try (Connection conn = ConexaoBanco.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);) {
+
+                stmt.setInt(1, id);
+                try (ResultSet rs = stmt.executeQuery()) {
+
+                    if (rs.next()) {
+
+                        Emprestimo e = new Emprestimo();
+                        e.setId(rs.getInt("id"));
+                        e.setSaldoDevedor(rs.getDouble("saldo_devedor"));
+                        e.setParcelasPagas(rs.getInt("parcelas_pagas"));
+                        e.setValorTotalJuros(rs.getDouble("valor_total_juros"));
+                        e.setTotalParcelas(rs.getInt("total_parcelas"));
+
+                        return e;
+                    }
+                }
+             } catch (SQLException e) {
+                System.out.println("Erro ao buscar Empréstimo: " + e.getMessage());
+             }
+             return null;
+    }
 }
