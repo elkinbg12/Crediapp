@@ -9,7 +9,7 @@ public class EmprestimoDAO {
     
     public void cadastrarEmprestimo(Emprestimo emprestimo) {
 
-        String sql = "INSERT INTO Emprestimos (valor_puro, taxa_aplicada, valor_total_juros, saldo_devedor, total_parcelas, parcelas_pagas, data_emprestimo, cliente_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Emprestimos (valor_puro, taxa_aplicada, valor_total_juros, saldo_devedor, total_parcelas, parcelas_pagas, valor_parcela, data_emprestimo, cliente_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
        try (Connection conn = ConexaoBanco.conectar();
         PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -20,8 +20,9 @@ public class EmprestimoDAO {
            stmt.setDouble(4, emprestimo.getSaldoDevedor());
            stmt.setInt(5, emprestimo.getTotalParcelas());
            stmt.setInt(6, emprestimo.getParcelasPagas());
-           stmt.setDate(7, java.sql.Date.valueOf(emprestimo.getDataEmprestimo()));
-           stmt.setInt(8, emprestimo.getCliente().getId());
+           stmt.setDouble(7, emprestimo.getValorParcela());
+           stmt.setDate(8, java.sql.Date.valueOf(emprestimo.getDataEmprestimo()));
+           stmt.setInt(9, emprestimo.getCliente().getId());
            
            stmt.executeUpdate();
            System.out.println("Empréstimo registrado com sucesso no banco!");
@@ -49,6 +50,7 @@ public class EmprestimoDAO {
                     e.setSaldoDevedor(rs.getDouble("saldo_devedor"));
                     e.setTotalParcelas(rs.getInt("total_parcelas"));
                     e.setParcelasPagas(rs.getInt("parcelas_pagas"));
+                    e.setValorParcela(rs.getDouble("valor_parcela"));
 
                     if (rs.getDate("data_emprestimo") != null) {
                         e.setDataEmprestimo(rs.getDate("data_emprestimo").toLocalDate());
@@ -109,6 +111,7 @@ public class EmprestimoDAO {
                         e.setParcelasPagas(rs.getInt("parcelas_pagas"));
                         e.setValorTotalJuros(rs.getDouble("valor_total_juros"));
                         e.setTotalParcelas(rs.getInt("total_parcelas"));
+                        e.setValorParcela(rs.getDouble("valor_parcela"));
 
                         return e;
                     }

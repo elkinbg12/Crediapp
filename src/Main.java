@@ -121,9 +121,10 @@ public class Main {
 					double valorTotalJuros = valorPuro + (valorPuro * taxaJuros);
 					double saldoDevedor = valorTotalJuros;
 					int parcelasPagas = 0;
+					double valorParcela = valorTotalJuros / totalParcelas;
 					java.time.LocalDate dataHoje = java.time.LocalDate.now();
 
-					Emprestimo novoEmprestimo = new Emprestimo(0, valorPuro, taxaJuros * 100, valorTotalJuros, saldoDevedor, totalParcelas, parcelasPagas, dataHoje, clienteDono);
+					Emprestimo novoEmprestimo = new Emprestimo(0, valorPuro, taxaJuros * 100, valorTotalJuros, saldoDevedor, totalParcelas, parcelasPagas, valorParcela, dataHoje, clienteDono);
 
 					EmprestimoDAO emprestimoDao = new EmprestimoDAO();
 					emprestimoDao.cadastrarEmprestimo(novoEmprestimo);
@@ -152,10 +153,11 @@ public class Main {
 					}
 				}
 				case 5 -> {
-					System.out.println("=== RESGISTRAR PAGAMENTO ===");
+					System.out.println("=== REGISTRAR PAGAMENTO ===");
 
 					System.out.println("Digite o ID do Empréstimo: ");
 					int empId = teclado.nextInt();
+					teclado.nextLine();
 
 					EmprestimoDAO empDao = new EmprestimoDAO();
 
@@ -171,18 +173,33 @@ public class Main {
 						double valorPago = teclado.nextDouble();
 						teclado.nextLine();
 
-						double novoSaldo = empAtual.getSaldoDevedor() - valorPago;
-						int novasParcelasPagas = empAtual.getParcelasPagas() + 1;
+						if (valorPago <= 0) {
+							System.out.println("Erro: O valor do pagamento deve ser maior que zero.\n");
+						} else {
 
-						if (novoSaldo < 0) {
-							novoSaldo = 0;
-						}
+						double novoSaldo = empAtual.getSaldoDevedor() - valorPago;
+						if (novoSaldo < 0) novoSaldo = 0;
+
+						double totalJaPago = empAtual.getValorTotalJuros() - novoSaldo;
+
+						int novasParcelasPagas = (int) (totalJaPago / empAtual.getValorParcela());
+
+						if (novasParcelasPagas > empAtual.getTotalParcelas()) {
+							novasParcelasPagas = empAtual.getTotalParcelas();
+						} 
 
 						empDao.registrarPagamento(empId, novoSaldo, novasParcelasPagas);
-					} else {
-						System.out.println("Empréstimo com ID " + empId + " não foi encontrado.");
-					}
+
+						System.out.printf("Pagamento de R$ %.2f registrado!\n", valorPago);
+                        System.out.printf("Novo Saldo Devedor: R$ %.2f\n", novoSaldo);
+						System.out.println("Parcelas totalmente quitadas até agora: " + novasParcelasPagas + "\n");
+					}  
+						
+					
+				} else {
+					System.out.println("Empréstimo com ID: " + empId + " não foi encontrado no sistema.\n");
 				}
+			}
 				case 0 -> System.out.println("Encerrando o Programa. Até mais!");
 				default -> System.out.println("Opção inválida! tente novamente.");   
 

@@ -9,12 +9,13 @@ public class Emprestimo {
     private double saldoDevedor;
     private int totalParcelas;
     private int parcelasPagas;
+    private double valorParcela;
     private LocalDate dataEmprestimo;
     private Cliente cliente;
 
     public Emprestimo () {}
 
-    public Emprestimo (int id, double valorPuro, double taxaAplicada, double valorTotalJuros, double saldoDevedor, int totalParcelas, int parcelasPagas, LocalDate dataEmprestimo, Cliente cliente) {
+    public Emprestimo (int id, double valorPuro, double taxaAplicada, double valorTotalJuros, double saldoDevedor, int totalParcelas, int parcelasPagas, double valorParcela, LocalDate dataEmprestimo, Cliente cliente) {
 
         this.id = id;
         this.valorPuro = valorPuro;
@@ -23,6 +24,7 @@ public class Emprestimo {
         this.saldoDevedor = saldoDevedor;
         this.totalParcelas = totalParcelas;
         this.parcelasPagas = parcelasPagas;
+        this.valorParcela = valorParcela;
         this.dataEmprestimo = dataEmprestimo;
         this.cliente = cliente;
     }
@@ -83,6 +85,14 @@ public class Emprestimo {
         this.parcelasPagas = parcelasPagas;
     }
 
+    public double getValorParcela() {
+        return valorParcela;
+    }
+
+    public void setValorParcela (double valorParcela) {
+        this.valorParcela = valorParcela;
+    }
+ 
     public LocalDate getDataEmprestimo() {
         return dataEmprestimo;
     }
