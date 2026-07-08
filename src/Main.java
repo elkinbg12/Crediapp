@@ -19,6 +19,7 @@ public class Main {
 			System.out.println("3- Lançar Empréstimo para Cliente");
 			System.out.println("4- Listar Empréstimos do banco");
 			System.out.println("5- Registrar Pagamento de Empréstimo.");
+			System.out.println("6- Buscar cliente por cpf.");
 			System.out.println("0- Sair do programa.");
 
 			opcao = teclado.nextInt();
@@ -82,7 +83,7 @@ public class Main {
 					}
 		
 					System.out.println("\nProcesso finalizado com sucesso!");
-					}
+				}
 				case 2 -> {
 
 					System.out.println("=== Consultando Clientes ===");
@@ -98,7 +99,7 @@ public class Main {
 						System.out.println("CPF: " + c.getCpf());
 						System.out.println("Telefone: " + c.getTelefone());
 						System.out.println("Endereço: " + c.getRua() + ", N° " + c.getNumero() + " - " + c.getBairro());
-						System.out.println("----------------------------------------------");
+						System.out.println("----------------------------------------------\n");
 					}
 				}
 				case 3 -> {
@@ -198,8 +199,34 @@ public class Main {
 					
 				} else {
 					System.out.println("Empréstimo com ID: " + empId + " não foi encontrado no sistema.\n");
+				 }
+			    }
+				case 6 -> {
+					System.out.println("=== BUSCAR CLIENTE POR CPF ===");
+
+					System.out.println("Digite o CPF desejado (somente números ou formatado): ");
+					String cpfBusca = teclado.nextLine();
+
+					Cliente clienteEncontrado = clienteDao.buscaPorCpf(cpfBusca);
+
+					if (clienteEncontrado != null) {
+
+						System.out.println("\n=========================================\n");
+					    System.out.println("	FICHA CADASTRAL DO CLIENTE        ");
+						System.out.println("\n=========================================");
+						System.out.println("ID do Sistema: " + clienteEncontrado.getId());
+						System.out.println("Nome Completo: " + clienteEncontrado.getNome());
+						System.out.println("CPF: " + clienteEncontrado.getCpf());
+						System.out.println("Celular/Tel: " + clienteEncontrado.getTelefone());
+						System.out.println("------------------------------------------");
+						System.out.println("ENDEREÇO:");
+						System.out.println("Rua: " + clienteEncontrado.getRua());
+						System.out.println("Bairro: " + clienteEncontrado.getBairro());
+						System.out.println("Complemento: " + clienteEncontrado.getComplemento() + "\n");
+					} else {
+						System.out.println("Nenhum Cliente cadatrado com CPF: " + cpfBusca + "\n");
+					}
 				}
-			}
 				case 0 -> System.out.println("Encerrando o Programa. Até mais!");
 				default -> System.out.println("Opção inválida! tente novamente.");   
 

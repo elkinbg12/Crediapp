@@ -59,4 +59,40 @@ public class ClienteDAO {
 
 			 return lista;
 	}
+
+	public Cliente buscaPorCpf(String cpf) {
+
+		String sql = "SELECT * FROM clientes WHERE cpf = ?";
+
+		try (Connection conn = ConexaoBanco.conectar();
+	         PreparedStatement stmt = conn.prepareStatement(sql);) {
+
+				stmt.setString(1, cpf);
+
+				try (ResultSet rs = stmt.executeQuery()) {
+
+					if (rs.next()) {
+
+						Cliente c = new Cliente();
+
+						c.setId(rs.getInt("id"));
+						c.setNome(rs.getString("nome"));
+						c.setCpf(rs.getString("cpf"));
+						c.setTelefone(rs.getString("telefone"));
+						c.setRua(rs.getString("rua"));
+						c.setNumero(rs.getString("numero"));
+						c.setBairro(rs.getString("bairro"));
+						c.setComplemento(rs.getString("complemento"));
+
+						return c;
+
+					}
+				}
+			 } catch (SQLException e) {
+
+				System.out.println("Erro ao buscar Cliente por CPF: " +  e.getMessage());
+				
+			 }
+			 return null;
+	}
 }
