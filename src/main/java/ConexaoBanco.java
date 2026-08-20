@@ -6,7 +6,7 @@ import java.sql.SQLException;
 public class ConexaoBanco {
 
 	private static final String URL = "jdbc:mysql://localhost:3306/crediapp";
-	private static final String USUARIO = "crediApp";
+	private static final String USUARIO = "root";
 	private static final String SENHA = "3147796943bg";
 	
 	public static Connection conectar() {

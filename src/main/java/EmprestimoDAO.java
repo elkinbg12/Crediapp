@@ -121,4 +121,27 @@ public class EmprestimoDAO {
              }
              return null;
     }
+
+    public boolean clientePossuiEmprestimo(int clienteId) {
+
+        String sql = "SELECT COUNT(*) FROM emprestimos WHERE cliente_id = ?";
+
+        try (Connection conn = ConexaoBanco.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);) {
+
+                stmt.setInt(1, clienteId);
+
+                try (ResultSet rs = stmt.executeQuery()) {
+
+                    if (rs.next()) {
+
+                        int quantidade = rs.getInt(1);
+                        return quantidade > 0;
+                    }
+                }
+             } catch (SQLException e) {
+                System.out.println("Erro ao verificar Empréstimos do Cliente" + e.getMessage());
+             }
+             return false;
+    }
 }

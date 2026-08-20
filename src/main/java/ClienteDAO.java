@@ -95,4 +95,24 @@ public class ClienteDAO {
 			 }
 			 return null;
 	}
+
+	public void deletarCliente(int id) {
+
+		String sql = "DELETE FROM clientes WHERE id = ?";
+
+		try (Connection conn = ConexaoBanco.conectar();
+			 PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+				stmt.setInt(1, id);
+				int linhasAfetadas = stmt.executeUpdate();
+
+				if ( linhasAfetadas > 0) {
+					System.out.println("Cliente deletado com sucesso do sistema!\n");
+				} else {
+					System.out.println("Não foi possivel deletar. ID não encontrado.");
+				}
+			 } catch (SQLException e) {
+				System.out.println("Erro ao deletar cliente: " + e.getMessage());
+			 }
+	}
 }

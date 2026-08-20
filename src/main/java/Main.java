@@ -18,8 +18,9 @@ public class Main {
 			System.out.println("2- Listar Clientes do banco");
 			System.out.println("3- Lançar Empréstimo para Cliente");
 			System.out.println("4- Listar Empréstimos do banco");
-			System.out.println("5- Registrar Pagamento de Empréstimo.");
-			System.out.println("6- Buscar cliente por cpf.");
+			System.out.println("5- Registrar Pagamento de Empréstimo");
+			System.out.println("6- Buscar cliente por cpf");
+			System.out.println("7- Excluir cliente do sistema");
 			System.out.println("0- Sair do programa.");
 
 			opcao = teclado.nextInt();
@@ -226,6 +227,32 @@ public class Main {
 					} else {
 						System.out.println("Nenhum Cliente cadatrado com CPF: " + cpfBusca + "\n");
 					}
+				}
+				case 7 -> {
+					System.out.println("=== EXCLUIR CLIENTE ===");
+
+					System.out.println("Digite o ID do cliente que deseja remover: ");
+					int idCliente = teclado.nextInt();
+					teclado.nextLine();
+
+					EmprestimoDAO empDaoChecagem = new EmprestimoDAO();
+					boolean temVinculo = empDaoChecagem.clientePossuiEmprestimo(idCliente);
+
+					if (temVinculo) {
+						System.out.println("\nErro de Segurança: Não é possivel deletar este cliente.");
+						System.out.println("Motivo: O cliente possui empréstimos ativos no histórico.");
+						System.out.println("Dica: Liquide ou remova os empréstimos antes de excluir o cadastro do cliente.\n");
+					} else {
+						System.out.println("Tem certeza que deseja excluir permanentemente este cliente? (S/N): ");
+						String confirmacao = teclado.nextLine();
+
+						if (confirmacao.equalsIgnoreCase("S")) {
+							clienteDao.deletarCliente(idCliente);
+						} else {
+							System.out.println("Operação de exclusão cancelada pelo usuário.\n");
+						}
+					}
+
 				}
 				case 0 -> System.out.println("Encerrando o Programa. Até mais!");
 				default -> System.out.println("Opção inválida! tente novamente.");   
