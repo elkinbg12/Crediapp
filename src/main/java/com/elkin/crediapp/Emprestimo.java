@@ -1,21 +1,40 @@
-import java.time.LocalDate;
+package com.elkin.crediapp;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "emprestimos")
 public class Emprestimo {
 
-    private int id;
-    private double valorPuro;
-    private double taxaAplicada;
-    private double valorTotalJuros;
-    private double saldoDevedor;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    private BigDecimal valorPuro;
+    private BigDecimal taxaAplicada;
+    private BigDecimal valorTotalJuros;
+    private BigDecimal saldoDevedor;
     private int totalParcelas;
     private int parcelasPagas;
-    private double valorParcela;
+    private BigDecimal valorParcela;
     private LocalDate dataEmprestimo;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     public Emprestimo () {}
 
-    public Emprestimo (int id, double valorPuro, double taxaAplicada, double valorTotalJuros, double saldoDevedor, int totalParcelas, int parcelasPagas, double valorParcela, LocalDate dataEmprestimo, Cliente cliente) {
+    public Emprestimo (Integer id, BigDecimal valorPuro,
+                       BigDecimal taxaAplicada, BigDecimal valorTotalJuros, BigDecimal saldoDevedor, int totalParcelas, int parcelasPagas, BigDecimal valorParcela, LocalDate dataEmprestimo, Cliente cliente) {
 
         this.id = id;
         this.valorPuro = valorPuro;
@@ -33,39 +52,39 @@ public class Emprestimo {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public double getValorPuro() {
+    public BigDecimal getValorPuro() {
         return valorPuro;
     }
 
-    public void setValorPuro(double valorPuro) {
+    public void setValorPuro(BigDecimal valorPuro) {
         this.valorPuro = valorPuro;
     }
 
-    public double getTaxaAplicada() {
+    public BigDecimal getTaxaAplicada() {
         return taxaAplicada;
     }
 
-    public void setTaxaAplicada(double taxaAplicada) {
+    public void setTaxaAplicada(BigDecimal taxaAplicada) {
         this.taxaAplicada = taxaAplicada;
     }
 
-    public double getValorTotalJuros() {
+    public BigDecimal getValorTotalJuros() {
         return valorTotalJuros;
     }
 
-    public void setValorTotalJuros(double valorTotalJuros) {
+    public void setValorTotalJuros(BigDecimal valorTotalJuros) {
         this.valorTotalJuros = valorTotalJuros;
     }
 
-    public double getSaldoDevedor() {
+    public BigDecimal getSaldoDevedor() {
         return saldoDevedor;
     }
 
-    public void setSaldoDevedor(double saldoDevedor) {
+    public void setSaldoDevedor(BigDecimal saldoDevedor) {
         this.saldoDevedor = saldoDevedor;
     }
 
@@ -85,11 +104,11 @@ public class Emprestimo {
         this.parcelasPagas = parcelasPagas;
     }
 
-    public double getValorParcela() {
+    public BigDecimal getValorParcela() {
         return valorParcela;
     }
 
-    public void setValorParcela (double valorParcela) {
+    public void setValorParcela (BigDecimal valorParcela) {
         this.valorParcela = valorParcela;
     }
  

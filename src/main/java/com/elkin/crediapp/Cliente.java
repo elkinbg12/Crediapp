@@ -1,7 +1,19 @@
+package com.elkin.crediapp;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "clientes")
 public class Cliente {
-	
-	private int id;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
 	private String nome;
 	private String cpf;
 	private String telefone;
@@ -12,7 +24,7 @@ public class Cliente {
 	
 	public Cliente() {}
 	
-	Cliente(int id, String nome, String cpf, String telefone, String bairro,
+	Cliente(Integer id, String nome, String cpf, String telefone, String bairro,
 			String rua, String numero, String complemento){
 		
 		this.id = id;
@@ -29,7 +41,7 @@ public class Cliente {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		
 		this.id = id;
 	}
