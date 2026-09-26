@@ -2,13 +2,12 @@ package com.elkin.crediapp;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "emprestimos")
@@ -18,15 +17,37 @@ public class Emprestimo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull(message = "O valor puro do empréstimo é obrigatório")
+    @Column(nullable = false)
     private BigDecimal valorPuro;
+
+    @NotNull
+    @Column(nullable = false)
     private BigDecimal taxaAplicada;
+
+    @NotNull(message = "O valor total de juros é obrigatório")
+    @Column(nullable = false)
     private BigDecimal valorTotalJuros;
+
+    @NotNull(message = "O saldo devedor é obrigatório")
+    @Column(nullable = false)
     private BigDecimal saldoDevedor;
+
+    @NotNull(message = "O total de parcelas é obrigatório")
+    @Column(nullable = false)
     private int totalParcelas;
+
+
     private int parcelasPagas;
+
+    @NotNull(message = "O valor da parcela é obrigatório")
+    @Column(nullable = false)
     private BigDecimal valorParcela;
+
+    @NotNull(message = "A data do empréstimo é obrigatória")
     private LocalDate dataEmprestimo;
 
+    @NotNull(message = "O empréstimo deve estar vinculado a um cliente")
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

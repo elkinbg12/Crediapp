@@ -1,10 +1,8 @@
 package com.elkin.crediapp;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "clientes")
@@ -14,12 +12,31 @@ public class Cliente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@NotBlank(message = "O nome é Obrigatório")
+	@Column(nullable = false)
 	private String nome;
+
+	@NotBlank(message = "O CPF é obrigatório")
+	@Size(min = 11, max = 11, message = "O CPF deve conter exatamente 11 dígitos")
+	@Column(nullable = false, unique = true)
 	private String cpf;
+
+	@NotBlank(message = "O telefone é obrigatório")
+	@Column(nullable = false)
 	private String telefone;
+
+	@NotBlank(message = "O bairro é obrigatório")
+	@Column(nullable = false)
 	private String bairro;
+
+	@NotBlank(message = "A rua é obrigatória")
+	@Column(nullable = false)
 	private String rua;
+
+	@NotBlank(message = "O número é obrigatório")
+	@Column(nullable = false)
 	private String numero;
+
 	private String complemento;
 	
 	public Cliente() {}
@@ -36,7 +53,7 @@ public class Cliente {
 		this.numero = numero;
 		this.complemento = complemento;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
